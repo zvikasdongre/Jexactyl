@@ -10,7 +10,7 @@ class RegistrationFormRequest extends AdminFormRequest
     {
         return [
             'registration:enabled' => 'required|in:true,false',
-            'registration:verification' => 'required|boolean',
+            'registration:verification' => ['declined_if:"registration:enabled",false', 'required', 'in:true,false'],
             'discord:enabled' => 'required|in:true,false',
             'discord:id' => 'required|int',
             'discord:secret' => 'required|string',
@@ -22,6 +22,13 @@ class RegistrationFormRequest extends AdminFormRequest
             'registration:port' => 'required|int',
             'registration:backup' => 'required|int',
             'registration:database' => 'required|int',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'registration:verification.declined_if' => 'Email Verification can only be enabled if Email Registration is enabled.',
         ];
     }
 }
